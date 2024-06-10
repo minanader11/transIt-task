@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gal/gal.dart';
 import 'package:transit_task/domain/entities/popularPeopleResponseEntity.dart';
@@ -11,13 +12,27 @@ class HomeScreenViewModel extends Cubit<HomeScreenStates>{
   HomeScreenViewModel({required this.getPopularPeopleUseCase}):super(HomeScreenInitialState());
   GetPopularPeopleUseCase getPopularPeopleUseCase;
 List<PersonResponseEntity> popularPeople=[];
-  void getPopularPeople(String page)async{
+ScrollController scrollController=ScrollController();
+int page=1;
+  void getPopularPeople()async{
+    if(page==1){
     emit(GetPopularMoviesLoadingState());
-    var response=await getPopularPeopleUseCase.invoke(page);
+    } else {
+      emit(GetMorePopularMoviesLoadingState());
+    }
+    var response=await getPopularPeopleUseCase.invoke(page.toString());
     response.fold((l) {
       emit(GetPopularMoviesFailureState(errMsg: l.errMsg));
     }, (r) {
+      if(page!=1){
+
+        popularPeople.addAll(r.results??[]);
+
+      }else{
       popularPeople= r.results!;
+      }
+      print(popularPeople.length);
+      print(page);
       emit(GetPopularMoviesSuccessState());
     });
   }

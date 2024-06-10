@@ -13,4 +13,4 @@ class DownloadImageFailureState extends HomeScreenStates{
   String errMsg;
   DownloadImageFailureState({required this.errMsg});
 }
-
+class GetMorePopularMoviesLoadingState extends HomeScreenStates{}
