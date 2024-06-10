@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gal/gal.dart';
 import 'package:transit_task/domain/entities/popularPeopleResponseEntity.dart';
 import 'package:transit_task/domain/use_cases/getPopularPeopleUseCase.dart';
 import 'package:transit_task/presentation/home/view_model/homeScreenStates.dart';
@@ -16,5 +20,22 @@ List<PersonResponseEntity> popularPeople=[];
       popularPeople= r.results!;
       emit(GetPopularMoviesSuccessState());
     });
+  }
+  void downloadImage(String image)async {
+    emit(DownloadImageLoadingState());
+    try{
+    final hasAccess = await Gal.hasAccess(toAlbum: true);
+    await Gal.requestAccess(toAlbum: true);
+    final path = '${Directory.systemTemp.path}/done.jpg';
+    await Dio().download(
+      'https://image.tmdb.org/t/p/original${image}',
+      path,
+    );
+    await Gal.putImage(path, album: 'flutter');
+    emit(DownloadImageSuccessState());
+    }
+        catch (e){
+         emit(DownloadImageFailureState(errMsg: e.toString()));
+        }
   }
 }

@@ -8,3 +8,6 @@ class ServerFailure extends Failures{
 class NetworkFailure extends Failures{
   NetworkFailure({required super.errMsg});
 }
+class HiveFailure extends Failures{
+  HiveFailure({required super.errMsg});
+}

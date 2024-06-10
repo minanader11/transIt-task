@@ -3,6 +3,8 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  connectivity_plus
+  gal
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
