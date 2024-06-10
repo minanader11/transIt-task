@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:transit_task/domain/di.dart';
 import 'package:transit_task/presentation/home/view/home_screen.dart';
+import 'package:transit_task/presentation/home/view_model/home_view_model.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( MultiBlocProvider(providers: [BlocProvider(create: (context) => HomeScreenViewModel(getPopularPeopleUseCase: injectGetPopularePeopleUseCase()),)],child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
