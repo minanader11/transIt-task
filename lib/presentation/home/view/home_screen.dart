@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transit_task/core/theme/colors.dart';
 import 'package:transit_task/core/theme/textStyles.dart';
 import 'package:transit_task/presentation/authentication/login/view/login_screen.dart';
+import 'package:transit_task/presentation/authentication/register/view/register_screen.dart';
 import 'package:transit_task/presentation/home/view/widgets/personeListItem.dart';
 import 'package:transit_task/presentation/home/view_model/homeScreenStates.dart';
 import 'package:transit_task/presentation/home/view_model/home_view_model.dart';
@@ -17,7 +18,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
 
   @override
@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Spacer(),
                 IconButton(onPressed: (){
                   homeCubit.googleSignOut();
-                  Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+                  Navigator.of(context).pop();
 
                 }, icon: Icon(Icons.logout))
               ],

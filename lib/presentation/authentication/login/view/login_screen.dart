@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:transit_task/core/theme/colors.dart';
 import 'package:transit_task/core/theme/textStyles.dart';
 import 'package:transit_task/presentation/authentication/login/view_model/login_screen_states.dart';
@@ -12,30 +12,28 @@ import 'package:transit_task/utils/customClipPath.dart';
 import 'package:transit_task/utils/custom_text_field.dart';
 import 'package:transit_task/utils/dialog_utils.dart';
 
-class LoginScreen extends StatefulWidget{
+class LoginScreen extends StatelessWidget {
   static const String routeName = 'LoginScreen';
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
+  GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
 
-class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    LoginViewModel viewModel = BlocProvider.of<LoginViewModel>(context);
-    return BlocListener<LoginViewModel,LoginStates>(
+    var viewModel = BlocProvider.of<LoginViewModel>(context);
+    return BlocListener<LoginViewModel, LoginStates>(
 
       listener: (context, state) {
         if (state is LoginLoadingState) {
+          print('show Loading');
           DialogUtils.showLoading(context: context);
         } else if (state is LoginErrorState) {
-          DialogUtils.hideLoading(context);
+          Navigator.of(context).pop();
           DialogUtils.showMessage(
               context: context,
               message: state.errorMsg,
               actionName: 'ok',
               posActionFun: () {
-                DialogUtils.hideLoading(context);
+                Navigator.of(context).pop();
               });
         } else if (state is LoginSuccessState) {
           DialogUtils.hideLoading(context);
@@ -44,47 +42,52 @@ class _LoginScreenState extends State<LoginScreen> {
               message: 'LoginSuccessfully',
               actionName: 'ok',
               posActionFun: () {
-                Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+                Navigator.of(context).pop();
+                Navigator.of(context)
+                    .pushNamed(HomeScreen.routeName);
               });
-
-        } else if (state is LoginWithGoogleSuccessState){
+        } else if (state is LoginWithGoogleSuccessState) {
           DialogUtils.showMessage(
               context: context,
               message: 'LoginSuccessfully',
               actionName: 'ok',
               posActionFun: () {
-                Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+                Navigator.of(context).pop();
+                Navigator.of(context)
+                    .pushNamed(HomeScreen.routeName);
               });
-        } else if (state is LoginWithGoogleErrorState){
+        } else if (state is LoginWithGoogleErrorState) {
           DialogUtils.showMessage(
               context: context,
               message: state.errorMsg,
               actionName: 'ok',
               posActionFun: () {
-                DialogUtils.hideLoading(context);
+                Navigator.of(context).pop();
               });
         }
       },
       child: Scaffold(
         backgroundColor: MyColors.greyColor,
         body: Form(
-          key: viewModel.formKey,
+          key: loginFormKey,
           child: SingleChildScrollView(
             child: ClipPath(
               clipper: CustomClipPath(),
               child: Container(
                 margin: EdgeInsets.only(top: 20.h),
-                padding: EdgeInsets.only(top: 60.h, left: 17.w,right: 17.w),
+                padding: EdgeInsets.only(top: 60.h, left: 17.w, right: 17.w),
                 color: Colors.white,
                 height: 790.h,
                 width: double.infinity,
-                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                       'Login',
-                        style: Styles.textStyle40.copyWith(color: MyColors.purpleColor),
+                        'Login',
+                        style: Styles.textStyle40
+                            .copyWith(color: MyColors.purpleColor),
                       ),
                     ),
                     SizedBox(
@@ -98,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return 'Please Enter Your Email';
                         }
                         bool emailValid = RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(text);
                         if (!emailValid) {
                           return 'Please enter Valid Email';
@@ -123,33 +126,33 @@ class _LoginScreenState extends State<LoginScreen> {
                         return null;
                       },
                     ),
-
-                   
                     SizedBox(
                       height: 20.h,
                     ),
-                   
-                    InkWell(onTap: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed(RegisterScreen.routeName);
-                    },
-                      child: RichText(textAlign: TextAlign.center,
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed(RegisterScreen.routeName);
+                      },
+                      child: RichText(
+                        textAlign: TextAlign.center,
                         text: TextSpan(
-
-                          style:Styles.textStyle14,
+                          style: Styles.textStyle14,
                           children: <TextSpan>[
                             TextSpan(text: "don't have an account?"),
-                            TextSpan(text:'register Here', style: Styles.textStyle14.copyWith(color: MyColors.purpleColor)),
+                            TextSpan(
+                                text: 'register Here',
+                                style: Styles.textStyle14
+                                    .copyWith(color: MyColors.purpleColor)),
                           ],
                         ),
                       ),
                     ),
-
-
                     Spacer(),
                     ElevatedButton(
                       onPressed: () {
-                        viewModel.login();
+                        bool validate = loginFormKey.currentState!.validate();
+                        viewModel.login(validate);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: MyColors.purpleColor,
@@ -162,46 +165,50 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Padding(
                         padding: EdgeInsets.only(top: 17.h, bottom: 17.h),
                         child: Text(
-                         'Login',
+                          'Login',
                           style: Styles.textStyle18,
                         ),
                       ),
-                    ),SizedBox(height: 10.h,),
-                    ElevatedButton( style: ElevatedButton.styleFrom(
-                      backgroundColor: MyColors.purpleColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          50.r,
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: MyColors.purpleColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              50.r,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),onPressed: (){
-                      viewModel.loginWithGoogle();
-                    }, child: Container(padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 10.h),
-                      width:300.w,
-                      height:60.h,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-
-                        children: [
-                          Container(
-
-                              child:
-                              Image.asset(
-                                  'assets/images/google.png',
-                                  fit:BoxFit.fill
+                        onPressed: () {
+                          viewModel.loginWithGoogle();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10.w, vertical: 10.h),
+                          width: 300.w,
+                          height: 60.h,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  child: Image.asset('assets/images/google.png',
+                                      fit: BoxFit.fill)),
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              Text(
+                                'Sign-in with Google',
+                                style: Styles.textStyle18,
                               )
+                            ],
                           ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Text('Sign-in with Google',style: Styles.textStyle18,)
-                        ],
-                      ),
-                    )),
+                        )),
                     SizedBox(
                       height: 100.h,
                     ),
-
                   ],
                 ),
               ),
@@ -210,6 +217,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-
   }
 }

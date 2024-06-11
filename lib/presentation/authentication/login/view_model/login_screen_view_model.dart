@@ -12,20 +12,21 @@ class LoginViewModel extends Cubit<LoginStates> {
       );
   TextEditingController passwordController = TextEditingController(
       );
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   LoginUseCase loginUseCase;
   LoginWithGoogleUseCase loginWithGoogleUseCase;
 
   LoginViewModel({required this.loginUseCase,required this.loginWithGoogleUseCase}) : super(LoginInitialState());
 
-  void login() async {
-    bool validate = formKey.currentState!.validate();
+  void login(bool validate) async {
+
     if (validate) {
       emit(LoginLoadingState());
       var response = await loginUseCase.invoke(
           emailController.text, passwordController.text);
       emailController.clear();
       passwordController.clear();
+
       if (response == null) {
         emit(LoginSuccessState());
       } else {
@@ -35,6 +36,7 @@ class LoginViewModel extends Cubit<LoginStates> {
   }
 
   void loginWithGoogle() async {
+
    var response = await loginWithGoogleUseCase.invoke();
    response.fold((l) {
      emit(LoginWithGoogleErrorState(errorMsg: l!.errMsg));

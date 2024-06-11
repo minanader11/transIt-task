@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:transit_task/domain/di.dart';
 import 'package:transit_task/domain/entities/popularPeopleResponseEntity.dart';
+import 'package:transit_task/my_bloc_observer.dart';
 import 'package:transit_task/presentation/authentication/login/view/login_screen.dart';
 import 'package:transit_task/presentation/authentication/login/view_model/login_screen_view_model.dart';
 import 'package:transit_task/presentation/authentication/register/view/register_screen.dart';
@@ -13,8 +14,9 @@ import 'package:transit_task/presentation/home/view/home_screen.dart';
 import 'package:transit_task/presentation/home/view_model/home_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-
+import 'package:bloc/bloc.dart';
 void main() async {
+  Bloc.observer=MyBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

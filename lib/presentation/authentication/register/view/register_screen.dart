@@ -46,6 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 message: 'Register Successfully',
                 actionName: 'ok',
                 posActionFun: () {
+
                   Navigator.of(context)
                       .pushReplacementNamed(LoginScreen.routeName);
                 });
