@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gal/gal.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:transit_task/domain/entities/popularPeopleResponseEntity.dart';
 import 'package:transit_task/domain/use_cases/getPopularPeopleUseCase.dart';
 import 'package:transit_task/presentation/home/view_model/homeScreenStates.dart';
@@ -51,5 +52,10 @@ int page=1;
         catch (e){
          emit(DownloadImageFailureState(errMsg: e.toString()));
         }
+  }
+  void googleSignOut(){
+    GoogleSignIn googleSignIn=GoogleSignIn();
+    googleSignIn.signOut();
+    emit(GoogleSignOutState());
   }
 }

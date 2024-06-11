@@ -46,15 +46,23 @@ class _LoginScreenState extends State<LoginScreen> {
               posActionFun: () {
                 Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
               });
-         // Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
 
-          // DialogUtils.showMessage(
-          //     context: context,
-          //     message: 'Login Successfully',
-          //     actionName: 'ok',
-          //     posActionFun: () {
-          //       Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
-          //     });
+        } else if (state is LoginWithGoogleSuccessState){
+          DialogUtils.showMessage(
+              context: context,
+              message: 'LoginSuccessfully',
+              actionName: 'ok',
+              posActionFun: () {
+                Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+              });
+        } else if (state is LoginWithGoogleErrorState){
+          DialogUtils.showMessage(
+              context: context,
+              message: state.errorMsg,
+              actionName: 'ok',
+              posActionFun: () {
+                DialogUtils.hideLoading(context);
+              });
         }
       },
       child: Scaffold(
@@ -70,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.white,
                 height: 790.h,
                 width: double.infinity,
-                child: Column(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
@@ -116,31 +124,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
 
-                    // Padding(
-                    //   padding: EdgeInsets.only(right: 15.w),
-                    //   child: Text(
-                    //     MyTexts.forgetPassword,
-                    //     style: Styles.textStyle18,
-                    //     textAlign: TextAlign.end,
-                    //   ),
-                    // ),
+                   
                     SizedBox(
                       height: 20.h,
                     ),
-                    // InkWell(
-                    //   onTap: () => Navigator.of(context)
-                    //       .pushNamed(RegisterScreen.routeName),
-                    //   child: Text(
-                    //     MyTexts.dontHaveAccount,
-                    //     textAlign: TextAlign.center,
-                    //     style: Styles.textStyle18.copyWith(color:MyColors.darkGreyColor),
-                    //   ),
-                    // ),
+                   
                     InkWell(onTap: () {
                       Navigator.of(context)
                           .pushReplacementNamed(RegisterScreen.routeName);
                     },
-                      child: RichText(
+                      child: RichText(textAlign: TextAlign.center,
                         text: TextSpan(
 
                           style:Styles.textStyle14,
@@ -151,30 +144,60 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
+
+
                     Spacer(),
-                    Padding(
-                      padding: EdgeInsets.only(right: 15.w),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          viewModel.login();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: MyColors.purpleColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              50.r,
-                            ),
-                          ),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 17.h, bottom: 17.h),
-                          child: Text(
-                           'Login',
-                            style: Styles.textStyle18,
+                    ElevatedButton(
+                      onPressed: () {
+                        viewModel.login();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: MyColors.purpleColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            50.r,
                           ),
                         ),
                       ),
-                    ),
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 17.h, bottom: 17.h),
+                        child: Text(
+                         'Login',
+                          style: Styles.textStyle18,
+                        ),
+                      ),
+                    ),SizedBox(height: 10.h,),
+                    ElevatedButton( style: ElevatedButton.styleFrom(
+                      backgroundColor: MyColors.purpleColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          50.r,
+                        ),
+                      ),
+                    ),onPressed: (){
+                      viewModel.loginWithGoogle();
+                    }, child: Container(padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 10.h),
+                      width:300.w,
+                      height:60.h,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+
+                        children: [
+                          Container(
+
+                              child:
+                              Image.asset(
+                                  'assets/images/google.png',
+                                  fit:BoxFit.fill
+                              )
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Text('Sign-in with Google',style: Styles.textStyle18,)
+                        ],
+                      ),
+                    )),
                     SizedBox(
                       height: 100.h,
                     ),

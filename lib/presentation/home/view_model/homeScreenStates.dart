@@ -14,3 +14,4 @@ class DownloadImageFailureState extends HomeScreenStates{
   DownloadImageFailureState({required this.errMsg});
 }
 class GetMorePopularMoviesLoadingState extends HomeScreenStates{}
+class GoogleSignOutState extends HomeScreenStates{}

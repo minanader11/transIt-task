@@ -10,6 +10,7 @@ import 'package:transit_task/domain/data_source/popularPeopleDataSource.dart';
 import 'package:transit_task/domain/repository/authentication_repo.dart';
 import 'package:transit_task/domain/repository/popularPeopleRepo.dart';
 import 'package:transit_task/domain/use_cases/getPopularPeopleUseCase.dart';
+import 'package:transit_task/domain/use_cases/loginWithGoogleUseCase.dart';
 import 'package:transit_task/domain/use_cases/login_use_case.dart';
 import 'package:transit_task/domain/use_cases/register_use_case.dart';
 
@@ -36,4 +37,7 @@ AuthenticationDataSource injectAuthenticationDataSource(){
 }
 LoginUseCase injectLoginUseCase(){
   return LoginUseCase(authenticationRepository: injectAuthenticationRepository());
+}
+LoginWithGoogleUseCase injectLoginWithGoogleUseCase(){
+  return LoginWithGoogleUseCase(authenticationRepository: injectAuthenticationRepository());
 }

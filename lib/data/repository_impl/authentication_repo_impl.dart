@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:transit_task/domain/data_source/authentication_data_source.dart';
 import 'package:transit_task/domain/entities/failure.dart';
 import 'package:transit_task/domain/repository/authentication_repo.dart';
@@ -14,6 +16,11 @@ return authenticationDataSource.login(email, password);
   @override
   Future<Failures?> register(String email, String password) {
 return authenticationDataSource.register(email, password);
+  }
+
+  @override
+  Future<Either<Failures?,UserCredential>> loginWithGoogle() {
+   return authenticationDataSource.loginWithGoogle();
   }
 
 }

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:transit_task/domain/entities/failure.dart';
 
 class FirebaseUtils {
@@ -46,5 +47,32 @@ class FirebaseUtils {
       print(e);
       return Failures(errMsg: e.toString());
     }
+  }
+  Future<Either<Failures?,UserCredential>>loginWithGoogle()async{
+
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+     if(googleUser==null){
+       return Left(Failures(errMsg: 'please select an account'));
+     }
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth = await googleUser
+          ?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+     var userCredential= await FirebaseAuth.instance.signInWithCredential(credential);
+     if(googleUser!=null){
+       return Right(userCredential);
+     }else{
+       return Left(Failures(errMsg: 'please select an account'));
+     }
+
+
+
   }
 }

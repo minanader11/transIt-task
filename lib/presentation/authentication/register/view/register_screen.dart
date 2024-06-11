@@ -21,8 +21,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   @override
-  // RegisterViewModel viewModel =
-  //   RegisterViewModel(getGradesUseCase: injectGetGradesUseCase(),getCentersUseCase: injecetGetGradesUseCase(),registerUseCase: injectRegisterUseCase());
+
 
   @override
   Widget build(BuildContext context) {

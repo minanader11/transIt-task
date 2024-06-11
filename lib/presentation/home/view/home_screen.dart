@@ -7,6 +7,7 @@ import 'package:transit_task/presentation/authentication/login/view/login_screen
 import 'package:transit_task/presentation/home/view/widgets/personeListItem.dart';
 import 'package:transit_task/presentation/home/view_model/homeScreenStates.dart';
 import 'package:transit_task/presentation/home/view_model/home_view_model.dart';
+import 'package:transit_task/utils/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = 'HomeScreen';
@@ -40,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: Styles.textStyle40.copyWith(color: MyColors.purpleColor),),
                 Spacer(),
                 IconButton(onPressed: (){
+                  homeCubit.googleSignOut();
                   Navigator.pushReplacementNamed(context, LoginScreen.routeName);
 
                 }, icon: Icon(Icons.logout))
@@ -48,7 +50,15 @@ class _HomeScreenState extends State<HomeScreen> {
             BlocBuilder<HomeScreenViewModel, HomeScreenStates>(
               builder: (context, state) {
                 if (state is GetPopularMoviesLoadingState) {
-                  return Center(child: CircularProgressIndicator(),);
+                 // return Center(child: CircularProgressIndicator(),);
+                  return Expanded(
+                  child: ListView.builder(
+
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return ShimmerLoading(height: 150.h, width: 100.w);
+                    },),
+                                    );
                 } else if (state is GetPopularMoviesFailureState) {
                   return Center(child: Text(state.errMsg),);
                 } else {

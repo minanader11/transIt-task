@@ -31,7 +31,7 @@ void main() async {
           getPopularPeopleUseCase: injectGetPopularePeopleUseCase()),
     ),
     BlocProvider(
-      create: (context) => LoginViewModel(loginUseCase: injectLoginUseCase()),
+      create: (context) => LoginViewModel(loginUseCase: injectLoginUseCase(),loginWithGoogleUseCase: injectLoginWithGoogleUseCase()),
     ),
     BlocProvider(
       create: (context) =>
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
           LoginScreen.routeName: (context) => LoginScreen(),
           RegisterScreen.routeName:(context) => RegisterScreen()
         },
-        initialRoute: RegisterScreen.routeName,
+        initialRoute: LoginScreen.routeName,
       ),
     );
   }
