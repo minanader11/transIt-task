@@ -24,6 +24,8 @@ class LoginViewModel extends Cubit<LoginStates> {
       emit(LoginLoadingState());
       var response = await loginUseCase.invoke(
           emailController.text, passwordController.text);
+      emailController.clear();
+      passwordController.clear();
       if (response == null) {
         emit(LoginSuccessState());
       } else {

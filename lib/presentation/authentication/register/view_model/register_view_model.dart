@@ -21,6 +21,8 @@ class RegisterViewModel extends Cubit<RegisterStates>{
       emit(RegisterLoadingState());
 
        var response = await registerUseCase.invoke(emailController.text, passwordController.text);
+      emailController.clear();
+      passwordController.clear();
        if(response == null){
        emit(RegisterSuccessState());
        }else{
