@@ -18,6 +18,7 @@ int page=1;
     if(page==1){
     emit(GetPopularMoviesLoadingState());
     } else {
+
       emit(GetMorePopularMoviesLoadingState());
     }
     var response=await getPopularPeopleUseCase.invoke(page.toString());
@@ -25,9 +26,7 @@ int page=1;
       emit(GetPopularMoviesFailureState(errMsg: l.errMsg));
     }, (r) {
       if(page!=1){
-
         popularPeople.addAll(r.results??[]);
-
       }else{
       popularPeople= r.results!;
       }

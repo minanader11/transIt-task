@@ -10,4 +10,5 @@ class MyColors{
   static const darkGreyColor=Color(0xff919191);
   static const purpleColor=Color(0xff8F92D1);
   static const backGroundColor=Color(0xfff6f3f1);
+  static const greyColor=Color(0xffE1E1E0);
 }

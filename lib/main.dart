@@ -5,12 +5,20 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:transit_task/domain/di.dart';
 import 'package:transit_task/domain/entities/popularPeopleResponseEntity.dart';
+import 'package:transit_task/presentation/authentication/login/view/login_screen.dart';
+import 'package:transit_task/presentation/authentication/login/view_model/login_screen_view_model.dart';
+import 'package:transit_task/presentation/authentication/register/view/register_screen.dart';
+import 'package:transit_task/presentation/authentication/register/view_model/register_view_model.dart';
 import 'package:transit_task/presentation/home/view/home_screen.dart';
 import 'package:transit_task/presentation/home/view_model/home_view_model.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   final appDocumentDirectory = await getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
   Hive.registerAdapter(PopularPeopleResponseEntityAdapter());
@@ -21,6 +29,13 @@ void main()async {
     BlocProvider(
       create: (context) => HomeScreenViewModel(
           getPopularPeopleUseCase: injectGetPopularePeopleUseCase()),
+    ),
+    BlocProvider(
+      create: (context) => LoginViewModel(loginUseCase: injectLoginUseCase()),
+    ),
+    BlocProvider(
+      create: (context) =>
+          RegisterViewModel(registerUseCase: injectRegisterUseCase()),
     )
   ], child: MyApp()));
 }
@@ -32,16 +47,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(430, 932),
+      designSize: const Size(375, 812),
       splitScreenMode: true,
       minTextAdapt: true,
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: {
           HomeScreen.routeName: (context) => HomeScreen(),
-
+          LoginScreen.routeName: (context) => LoginScreen(),
+          RegisterScreen.routeName:(context) => RegisterScreen()
         },
-        initialRoute: HomeScreen.routeName,
+        initialRoute: RegisterScreen.routeName,
       ),
     );
   }

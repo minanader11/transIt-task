@@ -11,3 +11,7 @@ class NetworkFailure extends Failures{
 class HiveFailure extends Failures{
   HiveFailure({required super.errMsg});
 }
+class FirebaseFailure extends Failures{
+
+  FirebaseFailure({required super.errMsg});
+}

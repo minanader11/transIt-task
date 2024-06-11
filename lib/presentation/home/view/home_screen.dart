@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transit_task/core/theme/colors.dart';
 import 'package:transit_task/core/theme/textStyles.dart';
+import 'package:transit_task/presentation/authentication/login/view/login_screen.dart';
 import 'package:transit_task/presentation/home/view/widgets/personeListItem.dart';
 import 'package:transit_task/presentation/home/view_model/homeScreenStates.dart';
 import 'package:transit_task/presentation/home/view_model/home_view_model.dart';
@@ -33,8 +34,17 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 30.h),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Popular People',
-              style: Styles.textStyle40.copyWith(color: MyColors.purpleColor),),
+            Row(
+              children: [
+                Text('Popular People',
+                  style: Styles.textStyle40.copyWith(color: MyColors.purpleColor),),
+                Spacer(),
+                IconButton(onPressed: (){
+                  Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+
+                }, icon: Icon(Icons.logout))
+              ],
+            ),
             BlocBuilder<HomeScreenViewModel, HomeScreenStates>(
               builder: (context, state) {
                 if (state is GetPopularMoviesLoadingState) {

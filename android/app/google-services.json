@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "597007713864",
+    "project_id": "transit-task",
+    "storage_bucket": "transit-task.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597007713864:android:cc04c1ae508717c78b3a7d",
+        "android_client_info": {
+          "package_name": "com.example.transit_task"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT14kmPOsiT8ja30M0IvnVkcTI8N2lLAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

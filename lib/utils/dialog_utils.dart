@@ -55,8 +55,8 @@ class DialogUtils {
                 onPressed: () {
                   if (posActionFun != null) {
                     posActionFun.call();
-                  }
-                   Navigator.of(context).pop();
+                  } else{
+                   Navigator.of(context).pop();}
                 },
                 child: Text(
                   actionName,
