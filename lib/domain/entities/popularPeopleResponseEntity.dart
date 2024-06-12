@@ -105,7 +105,4 @@ class KnownForResponseEntity extends HiveObject{
   num? voteAverage;
   @HiveField(27)
   num? voteCount;
-
-
-
 }
