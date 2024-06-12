@@ -25,6 +25,7 @@ class PopularPeopleRepoImpl implements PopularPeopleRepo{
       });
 
      } else{
+
       return popularPeopleLocalDataSource.getPopularPeople();
     }
   }

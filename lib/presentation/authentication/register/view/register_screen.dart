@@ -10,16 +10,11 @@ import 'package:transit_task/utils/customClipPath.dart';
 import 'package:transit_task/utils/custom_text_field.dart';
 import 'package:transit_task/utils/dialog_utils.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
   static const String routeName = 'RegisterScreen';
-
-  @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
-}
-
-class _RegisterScreenState extends State<RegisterScreen> {
+  GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   @override
 
 
@@ -55,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         builder: (context, state) => Scaffold(
               backgroundColor: MyColors.greyColor,
               body: Form(
-                key: viewModel.formKey,
+                key: registerFormKey,
                 child: SingleChildScrollView(
                   child: ClipPath(
                     clipper: CustomClipPath(),
@@ -137,7 +132,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             padding: EdgeInsets.only(right: 15.w),
                             child: ElevatedButton(
                               onPressed: () {
-                                viewModel.register();
+                                bool validate = registerFormKey.currentState!.validate();
+                                viewModel.register(validate);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: MyColors.purpleColor,

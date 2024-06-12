@@ -12,10 +12,10 @@ class RegisterViewModel extends Cubit<RegisterStates>{
 
   RegisterUseCase registerUseCase;
 
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  void register()async {
 
-    bool validate=  formKey.currentState!.validate();
+  void register(bool validate)async {
+
+
 
     if(validate){
       emit(RegisterLoadingState());

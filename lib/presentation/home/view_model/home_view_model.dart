@@ -31,8 +31,7 @@ int page=1;
       }else{
       popularPeople= r.results!;
       }
-      print(popularPeople.length);
-      print(page);
+
       emit(GetPopularMoviesSuccessState());
     });
   }
@@ -50,7 +49,7 @@ int page=1;
     emit(DownloadImageSuccessState());
     }
         catch (e){
-         emit(DownloadImageFailureState(errMsg: e.toString()));
+         emit(DownloadImageFailureState(errMsg: 'Check Your Internet Connection'));
         }
   }
   void googleSignOut(){
