@@ -52,11 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (state is GetPopularMoviesLoadingState) {
                  // return Center(child: CircularProgressIndicator(),);
                   return Expanded(
-                  child: ListView.builder(
+                  child: ListView.builder(padding: EdgeInsets.only(top: 20.h),
 
                     itemCount: 10,
                     itemBuilder: (context, index) {
-                      return ShimmerLoading(height: 150.h, width: 100.w);
+                      return Padding(
+                        padding:  EdgeInsets.only(bottom: 20.h),
+                        child: ShimmerLoading(height: 150.h, width: 100.w),
+                      );
                     },),
                                     );
                 } else if (state is GetPopularMoviesFailureState) {

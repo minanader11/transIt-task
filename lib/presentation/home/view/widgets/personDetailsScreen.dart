@@ -43,7 +43,7 @@ class PersonDetailsScreen extends StatelessWidget {
         ),
         body: Column(children: [
 
-          CachedNetworkImage(fit:BoxFit.fill ,
+          CachedNetworkImage(fit:BoxFit.fill ,width: double.infinity,
             imageUrl:  'https://image.tmdb.org/t/p/original${personResponseEntity.profilePath}' ??
                 '',
             placeholder: (context, url) =>
